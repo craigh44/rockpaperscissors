@@ -1,8 +1,23 @@
 require 'sinatra/base'
+require_relative 'player'
 
 class Rock_Paper_Scissors < Sinatra::Base
+
+	enable :session
+
+set :views, Proc.new { File.join(root, "..", "views") }
+
   get '/' do
-    'Welcome to Rock Paper Scissors'
+ 	@name = params[:player]
+    erb :index
+  end
+
+  post '/game' do
+    puts session.inspect
+  	@name = params[:player]
+    player = Player.new(@name)
+    puts player.inspect
+    erb :game  
   end
 
   # start the server if ruby file executed directly
